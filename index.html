@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HoldInfo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.13.0/dist/full.css" rel="stylesheet">
+  </head>
+  
+
+<body class="bg-gray-700 min-h-screen">
+  <!-- Navbar -->
+  <nav class="bg-gray-900 text-white py-4 px-6">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">HoldInfo</h1>
+      <a href="#" class="text-blue-300 hover:text-blue-200">Home</a>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="flex items-center justify-center min-h-screen">
+      <div class="container mx-auto">
+          <h1 class="text-2xl font-bold text-center my-4 text-white">Top 10 Data</h1>
+          <table class="table-auto w-full shadow-lg rounded-lg">
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Name</th>
+            <th class="px-4 py-2">Last</th>
+            <th class="px-4 py-2">Buy</th>
+            <th class="px-4 py-2">Sell</th>
+            <th class="px-4 py-2">Volume</th>
+            <th class="px-4 py-2">Base Unit</th>
+          </tr>
+        </thead>
+        <tbody id="dataBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Fetch data from the backend and populate the table
+    fetch('https://holdinfo-server-z3san.vercel.app/topten')
+      .then(response => response.json())
+      .then(data => {
+        const tableBody = document.getElementById('dataBody');
+        data.forEach(item => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td class="border px-4 py-2">${item.name}</td>
+            <td class="border px-4 py-2">${item.last}</td>
+            <td class="border px-4 py-2">${item.buy}</td>
+            <td class="border px-4 py-2">${item.sell}</td>
+            <td class="border px-4 py-2">${item.volume}</td>
+            <td class="border px-4 py-2">${item.base_unit}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  </script>
+</body>
+
+</html>
